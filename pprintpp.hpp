@@ -194,10 +194,17 @@ struct type2fmt<T *>
 	static constexpr bool is_str{
 		is_same<char,
 		remove_cv_t<typename remove_ptr<raw_T>::type>>::value
+		/* dbj added 2019-11-18 */
+		||
+		is_same<char8_t,
+		remove_cv_t<typename remove_ptr<raw_T>::type>>::value
 	};
 
 	using type = typename s_or_p<is_str>::type;
 };
+
+
+
 /* DBJ -- END CHANGE */
 #endif /* PPRINTPP_STANDARD_CHAR_PTR */
 

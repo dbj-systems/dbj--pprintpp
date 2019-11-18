@@ -44,7 +44,21 @@ auto csl = [] () constexpr -> bool { return true };
 /*
 DBJ -- to print 'char *' as a string is standard + default behaviour
 */
+#ifndef PPRINTPP_STANDARD_CHAR_PTR
 #define PPRINTPP_STANDARD_CHAR_PTR 1
+#else
+#define PPRINTPP_STANDARD_CHAR_PTR 0
+#endif
+
+/*
+By default we do not use std:: lib 
+(note: STL does not exist for a long long time)
+*/
+#ifndef PPRINTPP_AVOID_STL
+#define PPRINTPP_AVOID_STL 1 
+#else
+#define PPRINTPP_AVOID_STL 0
+#endif
 
 #include "stl_symbols.hpp"
 #include "charlist.hpp"
@@ -142,7 +156,7 @@ struct type2fmt<nullptr_t>
 	using type = char_tl_t<'p'>;
 };
 
-#ifdef PPRINTPP_STANDARD_CHAR_PTR
+#if (PPRINTPP_STANDARD_CHAR_PTR == 0)
 // DBJ -- this makes char * output into 'p' aka pointer output
 template <typename T>
 struct type2fmt<T *>
@@ -177,8 +191,10 @@ template <typename T>
 struct type2fmt<T *>
 {
 	using raw_T = remove_cv_t<T>;
-	static constexpr bool is_str{is_same<char,
-										 remove_cv_t<typename remove_ptr<raw_T>::type>>::value};
+	static constexpr bool is_str{
+		is_same<char,
+		remove_cv_t<typename remove_ptr<raw_T>::type>>::value
+	};
 
 	using type = typename s_or_p<is_str>::type;
 };
@@ -300,17 +316,6 @@ using autoformat_t =
 
 template <typename... Ts>
 make_t<Ts...> tie_types(Ts...);
-
-/*
-		 #define AUTOFORMAT(s, ...) \
-		    ({ \
-		        struct strprov { static constexpr const char * str() { return static_cast<const char*>(s); } }; \
-		        using paramtypes = decltype(pprintpp::tie_types(__VA_ARGS__)); \
-		        using af = pprintpp::autoformat_t<strprov, paramtypes>; \
-		        af::str(); \
-		    })
-		*/
-/* DBJ -- replaced the above with bellow ... MSVC can work with this */
 
 #define AUTOFORMAT(FMT_, ...)                                                              \
 	[]() PPRINTPP_CONSTEXPR_LAMBDA -> const char * {                                       \

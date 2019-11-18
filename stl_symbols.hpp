@@ -24,7 +24,7 @@
  */
 #pragma once
 
-#ifdef PPRINTPP_AVOID_STL
+#if (PPRINTPP_AVOID_STL == 1)
 #include <stddef.h>
 #else
 #include <cstddef>
@@ -32,13 +32,13 @@
 #endif
 
 
-#ifndef PPRINTPP_AVOID_STL
-#endif
+//#ifndef PPRINTPP_AVOID_STL
+//#endif
 #include "typelist.hpp"
 
 namespace pprintpp {
 
-#ifndef PPRINTPP_AVOID_STL
+#if (PPRINTPP_AVOID_STL == 0)
 
 		using nullptr_t = std::nullptr_t;
 

@@ -336,7 +336,7 @@ make_t<Ts...> tie_types(Ts...);
 	}()
 
 #ifndef pprintf
-#define pprintf(s, ...) printf(AUTOFORMAT(s, ##__VA_ARGS__), ##__VA_ARGS__)
+#define pprintf(s, ...) ::printf(AUTOFORMAT(s, ##__VA_ARGS__), ##__VA_ARGS__)
 #else
 #error macro pprintf already defined?
 #endif

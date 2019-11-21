@@ -67,7 +67,7 @@ namespace pprintpp
 {
 
 /* DBJ -- BEGIN CHANGE */
-constexpr char version[] = "0.1.0";
+constexpr char version[] = "0.2.0";
 /* DBJ -- END CHANGE */
 
 template <typename T>

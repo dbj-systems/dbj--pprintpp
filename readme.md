@@ -5,12 +5,13 @@
 
 # dbj--pprintpp
 ### PPRINTPP port to Visual Studio 2019
-#### CL and CLANG 
+#### Tested with both CL and CLANG 
 
 Releases
 
 | Major | Minor | Patch | Comment                                                                                                      |
 | ----- | ----- | ----- | ------------------------------------------------------------------------------------------------------------ |
+| 0     | 2     | 0     | matches "%s" with `char8_t *`, by default matches "%s" with `char *`  |
 | 0     | 1     | 0     | Works with CL 19.23.28106.4 for x86. By default does not depend on std lib. Can not compile larger formating |
 
 ---

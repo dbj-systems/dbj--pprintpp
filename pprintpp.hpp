@@ -30,12 +30,17 @@
 #define _PPRINTPP_LANG __cplusplus
 #endif
 
+#if (_PPRINTPP_LANG > 201703L)
+ // C++20 code
+#endif
+
 /*
-constexpr lambda was made official not before C++17 
+constexpr lambda was made official only for and after C++17 
 auto csl = [] () constexpr -> bool { return true };
 */
 
 #if _PPRINTPP_LANG > 201402L
+// C++17 or better
 #define PPRINTPP_CONSTEXPR_LAMBDA constexpr
 #else
 #define PPRINTPP_CONSTEXPR_LAMBDA
@@ -194,10 +199,12 @@ struct type2fmt<T *>
 	static constexpr bool is_str{
 		is_same<char,
 		remove_cv_t<typename remove_ptr<raw_T>::type>>::value
-		/* dbj added 2019-11-18 */
+#if (_PPRINTPP_LANG > 201703L)
+		/* C++20 has char8_t dbj added 2019-11-18 */
 		||
 		is_same<char8_t,
 		remove_cv_t<typename remove_ptr<raw_T>::type>>::value
+#endif // C++20
 	};
 
 	using type = typename s_or_p<is_str>::type;
